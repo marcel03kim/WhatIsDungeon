@@ -5,38 +5,51 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager instance {  get; private set; }
-
-    private void Awake()
+    private static GameManager instance;            //싱글톤 코드
+    public static GameManager Instance
     {
-        if (instance )
+        get
         {
-            Destroy(gameObject);
-            return;
-        }
-        else
-        {
-            transform.parent = null;
-            instance = this;
-            DontDestroyOnLoad(gameObject);
+            if (instance == null)
+            {
+                GameObject tempObj = GameObject.Find("GameManager");
+                if (tempObj != null)
+                {
+                    instance = tempObj.GetComponent<GameManager>();
+                }
+                else
+                {
+                    instance = new GameObject("GameManager").AddComponent<GameManager>();
+                }
+
+                DontDestroyOnLoad(instance);
+            }
+            return instance;
         }
     }
-    // Update is called once per frame
-    void Update()
+
+    public GameObject Canvas_Stage;
+    public GameObject Canvas_Main;
+
+    public void Start()
     {
-        if(Input.anyKeyDown)
-        {
-            SceneManager.LoadScene("GameScene");
-        }
+        Canvas_Main.SetActive(true);
+        Canvas_Stage.SetActive(false);
     }
     public void GoToGame()
     {
-        SceneManager.LoadScene("PlayScene");
+        Loading.LoadScene("PlayScene");
     }
     public void GoToShop()
     {
-        SceneManager.LoadScene("ShopScene");
+        Loading.LoadScene("ShopScene");         //Loading.LoadScene을 사용해야 Scene과 Scene 사이에 로딩 씬이 로드 됨
+        //SceneManager.LoadScene("GameScene");
     }
+     public void GoToStage()
+     {
+        Canvas_Stage.SetActive(true);
+        Canvas_Main.SetActive(false);
+     }
     public void GoExit()
     {
         Application.Quit();
