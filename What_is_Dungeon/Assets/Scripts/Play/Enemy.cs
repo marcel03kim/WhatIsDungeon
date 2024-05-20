@@ -6,7 +6,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public int Hp = 30;
-    public float speed = 1f;
+    public float speed = 10f;
     Rigidbody rb;
 
     // Start is called before the first frame update
@@ -20,8 +20,20 @@ public class Enemy : MonoBehaviour
     void FixedUpdate()
     {
         transform.Translate(Vector3.right * speed * Time.deltaTime);
-        
+        if(Hp <= 0 )
+        {
+            Die();
+        }
     }
-
-    
+    void Die()
+    {
+        gameObject.SetActive(false);
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag == "Player")
+        {
+            Die();
+        }
+    }
 }
