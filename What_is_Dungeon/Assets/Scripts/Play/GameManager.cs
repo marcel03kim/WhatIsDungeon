@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
     public GameObject Canvas_Stage;
     public GameObject Canvas_Main;
 
+    
     public void Start()
     {
         Canvas_Main.SetActive(true);
