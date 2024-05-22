@@ -59,7 +59,7 @@ public class runeManager : MonoBehaviour
         }
     }
 
-    public void CreateRuneByButton(string runeTag)
+    public void buyRune(string runeTag)
     {
         Transform emptySlot = SlotManager.Instance.GetEmptySlot();
         if (emptySlot != null)
