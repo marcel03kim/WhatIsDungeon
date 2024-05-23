@@ -27,10 +27,5 @@ public class WaveController : MonoBehaviour
         {
             wave3.SetActive(true);
         }
-
-        if(transform.childCount < 1)
-        {
-            gameObject.SetActive(false);
-        }
     }
 }

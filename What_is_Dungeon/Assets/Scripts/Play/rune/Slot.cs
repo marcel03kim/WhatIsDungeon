@@ -9,7 +9,6 @@ public class Slot : MonoBehaviour, IDropHandler
     public void OnDrop(PointerEventData eventData)
     {
         GameObject droppedRune = eventData.pointerDrag;
-        Debug.Log(droppedRune);
         if (droppedRune != null)
         {
             Rune rune = droppedRune.GetComponent<Rune>();
