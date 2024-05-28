@@ -3,7 +3,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public int hp;
-    public float speed = 10f;
+    public float speed = 5f;
     Rigidbody rb;
 
     // Start is called before the first frame update
