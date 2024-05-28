@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.PackageManager;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class GameController : MonoBehaviour
 {   
@@ -9,12 +12,15 @@ public class GameController : MonoBehaviour
     private Vector3 _target;
     private RuneManager carryingRune;                      //잡고 있는 아이템 정보 값 관리
 
-    [SerializeField]
     public Dictionary<int, SlotManager> slotDictionary;       //Slot id, Slot class 관리하기 위한 자료구조
 
+    public float coin;
+    public Text coinText;             //coin 관리 
+    public GameObject cantBuy;
 
     private void Start()
     {
+        cantBuy.SetActive(false);
         slotDictionary = new Dictionary<int, SlotManager>();   //초기화
 
         for (int i = 0; i < slots.Length; i++)
@@ -26,6 +32,9 @@ public class GameController : MonoBehaviour
 
     void Update()
     {
+        coin += Time.deltaTime * 4;
+        coinText.text = ": " + ((int)coin).ToString();
+
         if (Input.GetMouseButtonDown(0)) //마우스 누를 때
         {
             SendRayCast();
@@ -51,7 +60,7 @@ public class GameController : MonoBehaviour
             var slot = hit.transform.GetComponent<SlotManager>();          //Raycast를 통해 나온 Slot칸
             if (slot.state == SlotManager.SLOTSTATE.FULL && carryingRune == null)
             {
-                string runePath = "Prefabs/rune_Grabbed_" + slot.runeObject.level.ToString("000");
+                string runePath = "Prefabs/rune_Grabbed_" + slot.runeObject.tag + slot.runeObject.level.ToString("000");
                 var runeGo = (GameObject)Instantiate(Resources.Load<GameObject>(runePath));     //아이템 생성
 
                 runeGo.transform.SetParent(this.transform);
@@ -121,7 +130,6 @@ public class GameController : MonoBehaviour
         }
 
         var rand = UnityEngine.Random.Range(0, slots.Length); //유니티 랜덤함수를 가져와서 0 ~ 배열 크기 사이 값
-        //int rand = 0;
         var slot = GetSlotById(rand);
         while (slot.state == SlotManager.SLOTSTATE.FULL)
         {
@@ -133,22 +141,38 @@ public class GameController : MonoBehaviour
 
     public void CreateFireRune()
     {
-        PlaceRandomrune("Fire");
+        if (coin > 2)
+        {
+            PlaceRandomrune("Fire");
+            coin -= 10;
+        }
     }
 
     public void CreateIceRune()
     {
-        PlaceRandomrune("Ice");
+        if (coin > 2)
+        {
+            PlaceRandomrune("Ice");
+            coin -= 10;
+        }
     }
 
     public void CreateWindRune()
     {
-        PlaceRandomrune("Wind");
+        if (coin > 2)
+        {
+            PlaceRandomrune("Wind");
+            coin -= 10;
+        }
     }
 
     public void CreateLightningRune()
     {
-        PlaceRandomrune("Lightning");
+        if (coin > 2)
+        {
+            PlaceRandomrune("Lightning");
+            coin -= 10;
+        }
     }
 
     bool AllSlotsOccupied()

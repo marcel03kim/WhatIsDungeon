@@ -11,11 +11,10 @@ GameObject:
   - component: {fileID: 5330474081756900857}
   - component: {fileID: 6647672482895318586}
   - component: {fileID: 8849391624121975886}
-  - component: {fileID: 75579810556128471}
-  - component: {fileID: 6041170172683779396}
+  - component: {fileID: 2641360513294340973}
   m_Layer: 0
-  m_Name: rune_Grabbed_002
-  m_TagString: Fire
+  m_Name: rune_Grabbed_Lightning000
+  m_TagString: Lightning
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -30,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 49.8, y: -18.8, z: 171.91705}
-  m_LocalScale: {x: 8.1, y: 8.1, z: 1}
+  m_LocalScale: {x: 10, y: 10, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -63,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b4621fa94cbe89f40ba24b63c9f0927b, type: 2}
+  - {fileID: 2100000, guid: 292e9731509ae8c438c591a4a88a015f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -85,22 +84,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &75579810556128471
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3584961174025250105}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f73c1cb497c045b47850870dd45ecd40, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  level: 1
-  tag: Fire
-  parentSlot: {fileID: 0}
---- !u!114 &6041170172683779396
+--- !u!114 &2641360513294340973
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -113,5 +97,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotId: 0
-  runeLevel: 0
-  runeTag: 
+  runeLevel: 1
+  runeTag: Lightning

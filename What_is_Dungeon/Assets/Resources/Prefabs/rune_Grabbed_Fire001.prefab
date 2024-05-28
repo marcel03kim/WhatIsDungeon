@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 5330474081756900857}
   - component: {fileID: 6647672482895318586}
   - component: {fileID: 8849391624121975886}
-  - component: {fileID: 75579810556128471}
+  - component: {fileID: -8668855477127613877}
   m_Layer: 0
-  m_Name: rune_000
+  m_Name: rune_Grabbed_Fire001
   m_TagString: Fire
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 49.8, y: -18.8, z: 171.91705}
-  m_LocalScale: {x: 7.9, y: 7.9, z: 1}
+  m_LocalScale: {x: 10, y: 10, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -84,7 +84,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &75579810556128471
+--- !u!114 &-8668855477127613877
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -93,9 +93,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 3584961174025250105}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f73c1cb497c045b47850870dd45ecd40, type: 3}
+  m_Script: {fileID: 11500000, guid: ecd1133ff239a094eabed792983222a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level: 1
-  tag: Fire
-  parentSlot: {fileID: 0}
+  slotId: 0
+  runeLevel: 2
+  runeTag: Fire

@@ -6,19 +6,6 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance;
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
-
     public string thisScene;
     public GameObject Canvas_Fail;
     public GameObject Canvas_Pause;
@@ -29,6 +16,8 @@ public class GameManager : MonoBehaviour
     public GameObject NewRecord;
     public float bestTime;
     public bool isGameClear;
+
+    
 
     [SerializeField] private float playTime;
 

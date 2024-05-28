@@ -28,9 +28,10 @@ public class SlotManager : MonoBehaviour
     
     public void Createrune(int id, string tag)
     {
+        
         //아이템 경로는 (Assets/Resources/Prefabs/rune_000)
         // Resoueces.Load(path) path = "Prefabs/rune_000" 이런식으로 작성해야함.
-        string runePath = "Prefabs/rune_" + id.ToString("000");
+        string runePath = "Prefabs/rune_" + tag + id.ToString("000");
                 
         //var runeGo = (GameObject)Instantiate(Resources.Load(runePath));
         // 본 형식은 리소스 로드 시 Object 타입으로 반환하기 때문에 GameObject 생성시 Null Ref. Exception 발생함.

@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 8849391624121975886}
   - component: {fileID: 75579810556128471}
   m_Layer: 0
-  m_Name: rune_001
-  m_TagString: Fire
+  m_Name: rune_Wind001
+  m_TagString: Wind
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4ac44149a5d962e4ea9796af425513a6, type: 2}
+  - {fileID: 2100000, guid: c89d8b2ab2cf77241b46a200249bc8ee, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -96,6 +96,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f73c1cb497c045b47850870dd45ecd40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level: 1
-  tag: Fire
+  level: 2
+  tag: Wind
   parentSlot: {fileID: 0}
