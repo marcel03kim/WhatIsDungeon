@@ -13,6 +13,9 @@ public class GameController : MonoBehaviour
 
     public Dictionary<int, SlotManager> slotDictionary;       //Slot id, Slot class 관리하기 위한 자료구조
 
+    public SkillManager skillManager;   //스킬 사용을 위한 선언
+    
+
     public float coin;
     public Text coinText;             //coin 관리 
 
@@ -31,6 +34,7 @@ public class GameController : MonoBehaviour
     {
         coin += Time.deltaTime * 4;
         coinText.text = ": " + ((int)coin).ToString();
+
 
         if (Input.GetMouseButtonDown(0)) //마우스 누를 때
         {
@@ -107,10 +111,17 @@ public class GameController : MonoBehaviour
     
     void OnruneMergedWithTarget(int targetSlotId)
     {
-        var slot = GetSlotById(targetSlotId);
-        Destroy(slot.runeObject.gameObject);            //slot에 있는 물체 파괴
-        slot.Createrune(carryingRune.runeLevel + 1, carryingRune.runeTag);       //슬롯에 다음 번호 물체 생성
-        Destroy(carryingRune.gameObject);               //잡고 있는 물체 파괴
+        if (carryingRune.runeLevel < 2)
+        {
+            var slot = GetSlotById(targetSlotId);
+            Destroy(slot.runeObject.gameObject);            //slot에 있는 물체 파괴
+            slot.Createrune(carryingRune.runeLevel + 1, carryingRune.runeTag);       //슬롯에 다음 번호 물체 생성
+            Destroy(carryingRune.gameObject);               //잡고 있는 물체 파괴
+        }
+        else
+        {
+            OnruneCarryFail();
+        }
     }
 
     void OnruneCarryFail()
@@ -138,28 +149,127 @@ public class GameController : MonoBehaviour
 
     public void CreateFireRune()
     {
-        PlaceRandomrune("Fire");
-        coin -= 2;
+        if (coin >= 2)
+        {
+            PlaceRandomrune("Fire");
+            coin -= 2;
+        }
     }
 
     public void CreateIceRune()
     {
-        PlaceRandomrune("Ice");
-        coin -= 2;
+        if (coin >= 2)
+        {
+            PlaceRandomrune("Ice");
+            coin -= 2;
+        }
     }
 
     public void CreateWindRune()
     {
-        PlaceRandomrune("Wind");
-        coin -= 2;
+        if (coin >= 2)
+        {
+            PlaceRandomrune("Wind");
+            coin -= 2;
+        }
     }
 
     public void CreateLightningRune()
     {
-        PlaceRandomrune("Lightning");
-        coin -= 2;
+        if (coin >= 2)
+        {
+            PlaceRandomrune("Lightning");
+            coin -= 2;
+        }
     }
 
+    public void ActiveFireSkill()
+    {
+        foreach (SlotManager slot in slots)
+        {
+            if (slot.state == SlotManager.SLOTSTATE.FULL && slot.runeObject.tag == "Fire")
+            {
+                switch (slot.runeObject.level)
+                {
+                    case 2:
+                        skillManager.GetComponent<SkillManager>().FireSkill(2);
+                        break;
+                    case 1:
+                        skillManager.GetComponent<SkillManager>().FireSkill(1);
+                        break;
+                    case 0:
+                        skillManager.GetComponent<SkillManager>().FireSkill(0);
+                        break;
+                }
+            }
+        }
+        
+        Debug.Log("Fire 스킬을 발동할 수 있는 룬이 없습니다.");
+    }
+    public void ActiveIceSkill()
+    {
+        foreach (SlotManager slot in slots)
+        {
+            if (slot.state == SlotManager.SLOTSTATE.FULL && slot.runeObject.tag == "Ice")
+            {
+                switch (slot.runeObject.level)
+                {
+                    case 2:
+                        skillManager.GetComponent<SkillManager>().IceSkill(2);
+                        break;
+                    case 1:
+                        skillManager.GetComponent<SkillManager>().IceSkill(1);
+                        break;
+                    case 0:
+                        skillManager.GetComponent<SkillManager>().IceSkill(0);
+                        break;
+                }
+            }
+        }
+        
+    }public void ActiveWindSkill()
+    {
+        foreach (SlotManager slot in slots)
+        {
+            if (slot.state == SlotManager.SLOTSTATE.FULL && slot.runeObject.tag == "Wind")
+            {
+                switch (slot.runeObject.level)
+                {
+                    case 2:
+                        skillManager.GetComponent<SkillManager>().WindSkill(2);
+                        break;
+                    case 1:
+                        skillManager.GetComponent<SkillManager>().WindSkill(1);
+                        break;
+                    case 0:
+                        skillManager.GetComponent<SkillManager>().WindSkill(0);
+                        break;
+                }
+            }
+        }
+    }
+    public void ActiveLightningSkill()
+    {
+        
+        foreach (SlotManager slot in slots)
+        {
+            if (slot.state == SlotManager.SLOTSTATE.FULL && slot.runeObject.tag == "Lightning")
+            {
+                switch (slot.runeObject.level)
+                {
+                    case 2:
+                        skillManager.GetComponent<SkillManager>().LightningSkill(2);
+                        break;
+                    case 1:
+                        skillManager.GetComponent<SkillManager>().LightningSkill(1);
+                        break;
+                    case 0:
+                        skillManager.GetComponent<SkillManager>().LightningSkill(0);
+                        break;
+                }
+            }
+        }
+    }
     bool AllSlotsOccupied()
     {//모든 슬롯이 채워져 있는지 확인
         foreach(var slot in slots)                       //foreach문을 통해서 Slots 배열을 검사후

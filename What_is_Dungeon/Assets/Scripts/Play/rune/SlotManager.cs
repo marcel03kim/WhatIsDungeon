@@ -39,7 +39,7 @@ public class SlotManager : MonoBehaviour
 
         runeGo.transform.SetParent(this.transform);
         runeGo.transform.localPosition = Vector3.zero;
-        runeGo.transform.localScale = Vector3.one;
+        runeGo.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
         //아이템 값 정보를 입력
         runeObject = runeGo.GetComponent<Rune>();
         runeObject.Init(id, tag, this); //함수를 통한 값 입력(this -> Slot Class)
