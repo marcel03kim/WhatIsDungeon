@@ -17,13 +17,19 @@ public class GameManager : MonoBehaviour
     public float bestTime;
     public bool isGameClear;
 
-    
+    public GameObject wave1;
+    public GameObject wave2;
+    public GameObject wave3;
 
     [SerializeField] private float playTime;
 
     // Start is called before the first frame update
     void Start()
     {
+        wave1.SetActive(true);
+        wave2.SetActive(false);
+        wave3.SetActive(false);
+
         isGameClear = false;
         playTime = 0;
 
@@ -41,6 +47,16 @@ public class GameManager : MonoBehaviour
         {
             playTime += Time.deltaTime;
             timeText.text = "Time : " + (int)playTime;
+        }
+
+        if (playTime >= 15f)
+        {
+            wave2.SetActive(true);
+        }
+
+        if (playTime >= 30f)
+        {
+            wave3.SetActive(true);
         }
     }
     public void Stage()

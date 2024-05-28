@@ -27,6 +27,7 @@ public class Loading : MonoBehaviour
         AsyncOperation op = SceneManager.LoadSceneAsync(nextScene);
         op.allowSceneActivation = false;                    //Scene 전환 코드
         float timer = 0.0f;
+        float fillSpeed = 0.5f;
 
         while (!op.isDone)                              //ProgressBar 관련 코드
         {
@@ -35,7 +36,7 @@ public class Loading : MonoBehaviour
 
             if (op.progress < 0.9f)
             {
-                progressBar.fillAmount = Mathf.Lerp(progressBar.fillAmount, op.progress, timer);
+                progressBar.fillAmount = Mathf.Lerp(progressBar.fillAmount, op.progress, timer * fillSpeed);
                 if (progressBar.fillAmount >= op.progress)
                 {
                     timer = 0f;
@@ -43,7 +44,7 @@ public class Loading : MonoBehaviour
             }
             else
             {
-                progressBar.fillAmount = Mathf.Lerp(progressBar.fillAmount, 1f, timer);
+                progressBar.fillAmount = Mathf.Lerp(progressBar.fillAmount, 1f, timer * fillSpeed);
                 if (progressBar.fillAmount == 1.0f)
                 {
                     yield return new WaitForSeconds(2.0f);    // 2초 동안 페이크 로딩

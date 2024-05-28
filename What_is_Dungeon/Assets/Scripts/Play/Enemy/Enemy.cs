@@ -41,7 +41,7 @@ public class Enemy : MonoBehaviour
     }
     void Die()
     {
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
     private void OnCollisionEnter(Collision collision)
     {

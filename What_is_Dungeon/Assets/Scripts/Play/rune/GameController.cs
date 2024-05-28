@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,11 +15,9 @@ public class GameController : MonoBehaviour
 
     public float coin;
     public Text coinText;             //coin 관리 
-    public GameObject cantBuy;
 
     private void Start()
     {
-        cantBuy.SetActive(false);
         slotDictionary = new Dictionary<int, SlotManager>();   //초기화
 
         for (int i = 0; i < slots.Length; i++)
@@ -141,38 +138,26 @@ public class GameController : MonoBehaviour
 
     public void CreateFireRune()
     {
-        if (coin > 2)
-        {
-            PlaceRandomrune("Fire");
-            coin -= 10;
-        }
+        PlaceRandomrune("Fire");
+        coin -= 2;
     }
 
     public void CreateIceRune()
     {
-        if (coin > 2)
-        {
-            PlaceRandomrune("Ice");
-            coin -= 10;
-        }
+        PlaceRandomrune("Ice");
+        coin -= 2;
     }
 
     public void CreateWindRune()
     {
-        if (coin > 2)
-        {
-            PlaceRandomrune("Wind");
-            coin -= 10;
-        }
+        PlaceRandomrune("Wind");
+        coin -= 2;
     }
 
     public void CreateLightningRune()
     {
-        if (coin > 2)
-        {
-            PlaceRandomrune("Lightning");
-            coin -= 10;
-        }
+        PlaceRandomrune("Lightning");
+        coin -= 2;
     }
 
     bool AllSlotsOccupied()
