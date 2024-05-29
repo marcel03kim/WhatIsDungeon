@@ -27,11 +27,10 @@ public class SceneController : MonoBehaviour
             return instance;
         }
     }
-
+    public GameObject Canvas_Inventory;
     public GameObject Canvas_Stage;
     public GameObject Canvas_Main;
     public GameObject Canvas_Book;
-    public GameObject Canvas_Shop;
 
 
 
@@ -39,7 +38,7 @@ public class SceneController : MonoBehaviour
     {
         Canvas_Main.SetActive(true);
         Canvas_Stage.SetActive(false);
-        Canvas_Shop.SetActive(false);
+        Canvas_Inventory.SetActive(false);
         Canvas_Book.SetActive(false);
     }
 
@@ -47,7 +46,7 @@ public class SceneController : MonoBehaviour
     {
         Canvas_Book.SetActive(true);
         Canvas_Main.SetActive(false);
-        Canvas_Shop.SetActive(false);
+        Canvas_Inventory.SetActive(false);
         Canvas_Stage.SetActive(false);
     }
     public void GoToGame()
@@ -56,20 +55,31 @@ public class SceneController : MonoBehaviour
     }
     public void GoToShop()
     {
-        Canvas_Shop.SetActive(true);
-        Canvas_Stage.SetActive(false);
-        Canvas_Main.SetActive(false);
-        Canvas_Book.SetActive(false);
+        Loading.LoadScene("ShopScene");
     }
+    public void GoToMain()
+    {
+        Loading.LoadScene("GameScene");
+    }
+
     public void GoToStage()
     {
         Canvas_Stage.SetActive(true);
         Canvas_Main.SetActive(false);
-        Canvas_Shop.SetActive(false);
+        Canvas_Inventory.SetActive(false);
         Canvas_Book.SetActive(false);
     }
+    public void GoToInventory()
+    {
+        Canvas_Stage.SetActive(false);
+        Canvas_Main.SetActive(false);
+        Canvas_Inventory.SetActive(true);
+        Canvas_Book.SetActive(false);
+    }
+
     public void GoExit()
     {
         Application.Quit();
     }
+
 }
