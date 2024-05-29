@@ -19,6 +19,7 @@ public class Loading : MonoBehaviour
     {
         nextScene = sceneName;
         SceneManager.LoadScene("LoadingScene");
+        Debug.Log(sceneName);
     }
 
     IEnumerator LoadScene()

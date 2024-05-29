@@ -35,21 +35,24 @@ public class GameController : MonoBehaviour
         coin += Time.deltaTime * 4;
         coinText.text = ": " + ((int)coin).ToString();
 
-
-        if (Input.GetMouseButtonDown(0)) //마우스 누를 때
+        if (Time.timeScale > 0)
         {
-            SendRayCast();
-        }
+            if (Input.GetMouseButtonDown(0)) //마우스 누를 때
+            {
+                SendRayCast();
+            }
 
-        if (Input.GetMouseButton(0) && carryingRune)    //잡고 이동시킬 때
-        {
-            OnruneSelected();
-        }
+            if (Input.GetMouseButton(0) && carryingRune)    //잡고 이동시킬 때
+            {
+                OnruneSelected();
+            }
 
-        if (Input.GetMouseButtonUp(0))  //마우스 버튼을 놓을때
-        {
-            SendRayCast();
+            if (Input.GetMouseButtonUp(0))  //마우스 버튼을 놓을때
+            {
+                SendRayCast();
+            }
         }
+        
     }
     void SendRayCast()
     {

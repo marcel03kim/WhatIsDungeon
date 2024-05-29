@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private float playTime;
 
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -48,7 +50,11 @@ public class GameManager : MonoBehaviour
             playTime += Time.deltaTime;
             timeText.text = "Time : " + (int)playTime;
         }
-
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            Canvas_Pause.SetActive(true);
+            Pause();
+        }
         if (playTime >= 15f)
         {
             wave2.SetActive(true);
@@ -59,12 +65,10 @@ public class GameManager : MonoBehaviour
             wave3.SetActive(true);
         }
     }
-    public void Stage()
-    {
-        Loading.LoadScene("Stage");
-    }
+    
     public void ReStart()
     {
+        Time.timeScale = 1f;
         Loading.LoadScene(thisScene);
     }
     public void Clear()
@@ -92,8 +96,8 @@ public class GameManager : MonoBehaviour
 
     public void Main()
     {
-        Start();
-        Loading.LoadScene("Main_scene");
+        Time.timeScale = 1f;
+        Loading.LoadScene("GameScene");
     }
 
     public void Pause()
@@ -101,11 +105,23 @@ public class GameManager : MonoBehaviour
         Canvas_Pause.SetActive(true);
         thisScene = SceneManager.GetActiveScene().name;
         Time.timeScale = 0f;
+
+        Rigidbody[] rigidbodies = FindObjectsOfType<Rigidbody>();
+        foreach (Rigidbody rb in rigidbodies)
+        {
+            rb.isKinematic = true;
+        }
     }
 
     public void Continue()
     {
         Canvas_Pause.SetActive(false);
         Time.timeScale = 1f;
+
+        Rigidbody[] rigidbodies = FindObjectsOfType<Rigidbody>();
+        foreach (Rigidbody rb in rigidbodies)
+        {
+            rb.isKinematic = false;
+        }
     }
 }

@@ -28,16 +28,25 @@ public class Enemy : MonoBehaviour
         }
     }
 
-   
+
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
-        transform.Translate(Vector3.right * speed * Time.deltaTime);    //몬스터 이동 스크립트
-        
-        if(hp <= 0 )
+        // 게임이 일시정지 상태가 아닐 때만 이동
+        if (Time.timeScale > 0)
+        {
+            Move();
+        }
+
+        if (hp <= 0)
         {
             Die();
         }
+    }
+
+    void Move()
+    {
+        transform.Translate(Vector3.right * speed * Time.deltaTime);
     }
     void Die()
     {
@@ -47,7 +56,8 @@ public class Enemy : MonoBehaviour
     {
         if(collision.gameObject.tag == "Player")
         {
-            Die();
+            collision.gameObject.GetComponent<PlayerController>().Hp -= 1;         //충돌한 오브젝트에서 플레이어컨트롤러 스크립트를 가져오고
+            Die();                                                                  //그 스크립트에 있는 Hp에서 1을 뺀다
         }
     }
 }
