@@ -59,5 +59,10 @@ public class Enemy : MonoBehaviour
             collision.gameObject.GetComponent<PlayerController>().Hp -= 1;         //충돌한 오브젝트에서 플레이어컨트롤러 스크립트를 가져오고
             Die();                                                                  //그 스크립트에 있는 Hp에서 1을 뺀다
         }
+        if(gameObject.tag == "Boss" && collision.gameObject.tag == "Player")
+        {
+            collision.gameObject.GetComponent<PlayerController>().Hp -= 3;         //충돌한 오브젝트에서 플레이어컨트롤러 스크립트를 가져오고
+            Die();
+        }
     }
 }

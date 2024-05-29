@@ -16,7 +16,8 @@ public class SkillManager : MonoBehaviour
     private float[] skillTimes = { 5, 5, 8, 12 };
     private float[] getSkillTimes = { 0, 0, 0, 0 };
 
-
+    public float gizmoRadius = 5.0f; // 기즈모 반경을 설정합니다.
+    public string[] enemyTags = { "Wave1", "Wave2", "Wave3", "Boss" };
 
     private void Start()
     {
@@ -55,7 +56,7 @@ public class SkillManager : MonoBehaviour
             return;
         }
 
-        // Ensure the button has a Button component
+        
         Button button = hideSkillButton[skillNum].GetComponent<Button>();
         if (button == null)
         {
@@ -116,30 +117,39 @@ public class SkillManager : MonoBehaviour
 
     public void FireSkill(int level)
     {
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        switch (level)
+        GameObject[] enemies = FindGameObjectsWithTags(enemyTags);
+        float radius = 5.0f;
+        foreach (var enemy in enemies)
         {
-            case 2:
-                Meteor(100);
-                break;
-            case 1:
-                Meteor(60);
-                break;
-            case 0:
-                Meteor(30);
-                break;
+            Vector3 enemyPosition = enemy.transform.position;
+
+            switch (level)
+            {
+                case 2:
+                    Meteor(100, enemyPosition, radius);
+                    break;
+                case 1:
+                    Meteor(60, enemyPosition, radius);
+                    break;
+                case 0:
+                    Meteor(30, enemyPosition, radius);
+                    break;
+            }
         }
     }
 
-    public void Meteor(int damage)
+    public void Meteor(int damage, Vector3 center, float radius)
     {
-        //Fire 룬의 Meteor 관련 코드 추가
-        //일정 범위 내에 감지 된 모든 오브젝트에게 레벨에 따른 일시적 데미지 입히는 형식으로 구현 예정
-        //오브젝트 대상을 찾고 그 대상을 중심으로 원형의 메테오 떨어지는 형태로 구상 중
+        Collider[] hitColliders = Physics.OverlapSphere(center, radius);
+        foreach (var hitCollider in hitColliders)
+        {
+            hitCollider.GetComponent<Enemy>().hp -= damage;
+        }
     }
     public void IceSkill(int level)
     {
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        GameObject[] enemies = FindGameObjectsWithTags(enemyTags);
+
         switch (level)
         {
             case 2:
@@ -162,7 +172,8 @@ public class SkillManager : MonoBehaviour
     }
     public void WindSkill(int level)
     {
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        GameObject[] enemies = FindGameObjectsWithTags(enemyTags);
+
         switch (level)
         {
             case 2:
@@ -186,7 +197,8 @@ public class SkillManager : MonoBehaviour
 
     public void LightningSkill(int level)
     {
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        GameObject[] enemies = FindGameObjectsWithTags(enemyTags);
+
         switch (level)
         {
             case 2:
@@ -205,5 +217,27 @@ public class SkillManager : MonoBehaviour
     {
         //해당 스킬 관련 코드 추가
         //일단 처음 스킬 맞은 오브젝트에서 선언 된 distance 값 만큼의 거리 내에 다른 오브젝트 있으면 스킬 튕기는 식으로 구현 할 예정
+    }
+    private GameObject[] FindGameObjectsWithTags(string[] tags)
+    {
+        List<GameObject> allObjects = new List<GameObject>();
+        foreach (string tag in tags)
+        {
+            GameObject[] taggedObjects = GameObject.FindGameObjectsWithTag(tag);
+            allObjects.AddRange(taggedObjects);
+        }
+        return allObjects.ToArray();
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+
+        GameObject[] enemies = FindGameObjectsWithTags(enemyTags);
+        foreach (var enemy in enemies)
+        {
+            Vector3 enemyPosition = enemy.transform.position;
+            Gizmos.DrawWireSphere(enemyPosition, gizmoRadius);
+        }
     }
 }
