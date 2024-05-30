@@ -152,37 +152,37 @@ public class GameController : MonoBehaviour
 
     public void CreateFireRune()
     {
-        if (coin >= 2)
+        if (coin >= 5)
         {
             PlaceRandomrune("Fire");
-            coin -= 2;
+            coin -= 5;
         }
     }
 
     public void CreateIceRune()
     {
-        if (coin >= 2)
+        if (coin >= 10)
         {
             PlaceRandomrune("Ice");
-            coin -= 2;
+            coin -= 10;
         }
     }
 
     public void CreateWindRune()
     {
-        if (coin >= 2)
+        if (coin >= 10)
         {
             PlaceRandomrune("Wind");
-            coin -= 2;
+            coin -= 10;
         }
     }
 
     public void CreateLightningRune()
     {
-        if (coin >= 2)
+        if (coin >= 15)
         {
             PlaceRandomrune("Lightning");
-            coin -= 2;
+            coin -= 15;
         }
     }
 
@@ -207,7 +207,6 @@ public class GameController : MonoBehaviour
             }
         }
         
-        Debug.Log("Fire 스킬을 발동할 수 있는 룬이 없습니다.");
     }
     public void ActiveIceSkill()
     {

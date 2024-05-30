@@ -12,6 +12,9 @@ TagManager:
   - Lightning
   - Wind
   - Slot
+  - Enemy
+  - Boss
+  - enemies
   layers:
   - Default
   - TransparentFX

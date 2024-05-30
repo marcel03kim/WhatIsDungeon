@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -213,6 +213,18 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1891177182}
+        m_TargetAssemblyTypeName: GameController, Assembly-CSharp
+        m_MethodName: ActiveIceSkill
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -847,6 +859,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 0
   speed: 5
+  EnemyTag: Wave3
 --- !u!54 &126368570
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1302,6 +1315,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 0
   speed: 5
+  EnemyTag: Wave3
 --- !u!54 &275078927
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1907,7 +1921,7 @@ GameObject:
   - component: {fileID: 361142676}
   m_Layer: 0
   m_Name: Capsule (2)
-  m_TagString: Wave1
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2014,6 +2028,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 0
   speed: 5
+  EnemyTag: Wave1
 --- !u!54 &361142676
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2191,7 +2206,7 @@ GameObject:
   - component: {fileID: 380594875}
   m_Layer: 0
   m_Name: Capsule
-  m_TagString: Wave2
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2298,6 +2313,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 0
   speed: 5
+  EnemyTag: Wave2
 --- !u!54 &380594875
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2448,6 +2464,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 0
   speed: 5
+  EnemyTag: Wave3
 --- !u!54 &414017833
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2560,7 +2577,7 @@ GameObject:
   - component: {fileID: 421772473}
   m_Layer: 0
   m_Name: Capsule (2)
-  m_TagString: Wave2
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2667,6 +2684,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 0
   speed: 5
+  EnemyTag: Wave2
 --- !u!54 &421772473
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3189,6 +3207,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 0
   speed: 5
+  EnemyTag: Wave3
 --- !u!54 &529958850
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3866,6 +3885,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 0
   speed: 5
+  EnemyTag: Wave3
 --- !u!54 &646557043
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4655,7 +4675,7 @@ GameObject:
   - component: {fileID: 836574367}
   m_Layer: 0
   m_Name: Capsule
-  m_TagString: Wave1
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4762,6 +4782,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 0
   speed: 5
+  EnemyTag: Wave1
 --- !u!54 &836574367
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4883,6 +4904,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1891177182}
+        m_TargetAssemblyTypeName: GameController, Assembly-CSharp
+        m_MethodName: ActiveFireSkill
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &861501724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4975,7 +5008,7 @@ GameObject:
   - component: {fileID: 878040176}
   m_Layer: 0
   m_Name: Capsule (4)
-  m_TagString: Wave2
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5082,6 +5115,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 0
   speed: 5
+  EnemyTag: Wave2
 --- !u!54 &878040176
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5200,7 +5234,7 @@ GameObject:
   - component: {fileID: 899676219}
   m_Layer: 0
   m_Name: Capsule (5)
-  m_TagString: Wave1
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5307,6 +5341,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 0
   speed: 5
+  EnemyTag: Wave1
 --- !u!54 &899676219
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5558,6 +5593,18 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1891177182}
+        m_TargetAssemblyTypeName: GameController, Assembly-CSharp
+        m_MethodName: ActiveWindSkill
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -6635,7 +6682,7 @@ GameObject:
   - component: {fileID: 1281785173}
   m_Layer: 0
   m_Name: Capsule (3)
-  m_TagString: Wave1
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6742,6 +6789,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 0
   speed: 5
+  EnemyTag: Wave1
 --- !u!54 &1281785173
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -7076,6 +7124,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1891177182}
+        m_TargetAssemblyTypeName: GameController, Assembly-CSharp
+        m_MethodName: ActiveLightningSkill
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1322080811
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7272,6 +7332,7 @@ MonoBehaviour:
   isHideSkill: 00000000
   gizmoRadius: 5
   enemyTags:
+  - Enemy
   - Wave1
   - Wave2
   - Wave3
@@ -8284,7 +8345,7 @@ GameObject:
   - component: {fileID: 1603437921}
   m_Layer: 0
   m_Name: Capsule (1)
-  m_TagString: Wave1
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8391,6 +8452,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 0
   speed: 5
+  EnemyTag: Wave1
 --- !u!54 &1603437921
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -8575,6 +8637,157 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &1614782301
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1614782302}
+  - component: {fileID: 1614782307}
+  - component: {fileID: 1614782306}
+  - component: {fileID: 1614782305}
+  - component: {fileID: 1614782304}
+  - component: {fileID: 1614782303}
+  m_Layer: 0
+  m_Name: Boss
+  m_TagString: Enemy
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1614782302
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1614782301}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.16551924, y: -0.0014361078, z: 0.0029608274, w: 0.98620105}
+  m_LocalPosition: {x: -1101.8513, y: -623.90784, z: 35.589233}
+  m_LocalScale: {x: 4.058201, y: 4.0582, z: 4.0582}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1762446864}
+  m_LocalEulerAnglesHint: {x: -51.75, y: 0, z: 0}
+--- !u!54 &1614782303
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1614782301}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 116
+  m_CollisionDetection: 0
+--- !u!114 &1614782304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1614782301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7bcbe0a38dfeb64f87106dcf67e2b8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp: 0
+  speed: 5
+  EnemyTag: Boss
+--- !u!136 &1614782305
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1614782301}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &1614782306
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1614782301}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 46374ff5430cdc34d89c7d77df71bf54, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1614782307
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1614782301}
+  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1617718390
 GameObject:
   m_ObjectHideFlags: 0
@@ -10031,6 +10244,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1614782302}
   - {fileID: 774642312}
   - {fileID: 1642822909}
   - {fileID: 1034924508}
@@ -10404,6 +10618,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 0
   speed: 5
+  EnemyTag: Wave3
 --- !u!54 &1812009250
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -10781,7 +10996,7 @@ MonoBehaviour:
   - {fileID: 1648984000}
   - {fileID: 619669446}
   - {fileID: 2084450257}
-  skillManager: {fileID: 0}
+  skillManager: {fileID: 1338495722}
   coin: 0
   coinText: {fileID: 1301342181}
 --- !u!114 &1891177183
@@ -10901,7 +11116,7 @@ GameObject:
   - component: {fileID: 1916932243}
   m_Layer: 0
   m_Name: Capsule (5)
-  m_TagString: Wave2
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11008,6 +11223,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 0
   speed: 5
+  EnemyTag: Wave2
 --- !u!54 &1916932243
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -11397,7 +11613,7 @@ GameObject:
   - component: {fileID: 1957993048}
   m_Layer: 0
   m_Name: Capsule (3)
-  m_TagString: Wave2
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11504,6 +11720,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 0
   speed: 5
+  EnemyTag: Wave2
 --- !u!54 &1957993048
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -11547,7 +11764,7 @@ GameObject:
   - component: {fileID: 1985012715}
   m_Layer: 0
   m_Name: Capsule (4)
-  m_TagString: Wave1
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11654,6 +11871,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 0
   speed: 5
+  EnemyTag: Wave1
 --- !u!54 &1985012715
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -11986,7 +12204,7 @@ GameObject:
   - component: {fileID: 2072449384}
   m_Layer: 0
   m_Name: Capsule (1)
-  m_TagString: Wave2
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12093,6 +12311,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 0
   speed: 5
+  EnemyTag: Wave2
 --- !u!54 &2072449384
 Rigidbody:
   m_ObjectHideFlags: 0

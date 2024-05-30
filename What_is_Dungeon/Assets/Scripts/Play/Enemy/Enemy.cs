@@ -5,13 +5,14 @@ public class Enemy : MonoBehaviour
     public int hp;
     public float speed = 5f;
     Rigidbody rb;
+    public string EnemyTag;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
 
-        switch (gameObject.tag)
+        switch (EnemyTag)
         {
             case ("Wave1"):
                 hp = 50;
@@ -59,7 +60,7 @@ public class Enemy : MonoBehaviour
             collision.gameObject.GetComponent<PlayerController>().Hp -= 1;         //충돌한 오브젝트에서 플레이어컨트롤러 스크립트를 가져오고
             Die();                                                                  //그 스크립트에 있는 Hp에서 1을 뺀다
         }
-        if(gameObject.tag == "Boss" && collision.gameObject.tag == "Player")
+        if(EnemyTag == "Boss" && collision.gameObject.tag == "Player")
         {
             collision.gameObject.GetComponent<PlayerController>().Hp -= 3;         //충돌한 오브젝트에서 플레이어컨트롤러 스크립트를 가져오고
             Die();
