@@ -2,14 +2,16 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public int hp;
+    public float hp;
     public float speed = 5f;
     Rigidbody rb;
     public string EnemyTag;
+    public bool isFrozen;
 
     // Start is called before the first frame update
     void Start()
     {
+        isFrozen = false;
         rb = GetComponent<Rigidbody>();
 
         switch (EnemyTag)
@@ -33,10 +35,19 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         // 게임이 일시정지 상태가 아닐 때만 이동
         if (Time.timeScale > 0)
         {
-            Move();
+            if (!isFrozen)
+            {
+                speed = 5f;
+                Move();
+            }
+            else
+            {
+                speed = 0;
+            }
         }
 
         if (hp <= 0)

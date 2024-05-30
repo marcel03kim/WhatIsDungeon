@@ -8,23 +8,25 @@ public class SkillManager : MonoBehaviour
 {
     public GameObject[] hideSkillButton;
     public GameObject[] textPros;
-    public TextMeshProUGUI[] hideSkillTimeTexts;
+    public TextMeshProUGUI[] hideSkillTimeTexts; // TextMeshProUGUI 배열로 수정
     public Image[] hideSkillImage;
     public bool[] isHideSkill = { false, false, false, false };
     private float[] skillTimes = { 5, 5, 8, 12 };
     private float[] getSkillTimes = { 0, 0, 0, 0 };
 
-    public float gizmoRadius = 5.0f;
+    public float gizmoRadius = 5.0f; // 기즈모 반경을 설정합니다.
     public string[] enemyTags = { "Enemy", "Wave1", "Wave2", "Wave3", "Boss" };
-    private Enemy[] enemies;
+
+    private List<Vector3> meteorPositions = new List<Vector3>(); // 메테오 위치를 저장할 리스트
+    public float meteorRadius = 5.0f;
 
     private void Start()
     {
-        hideSkillTimeTexts = new TextMeshProUGUI[textPros.Length];
+        hideSkillTimeTexts = new TextMeshProUGUI[textPros.Length]; // 배열 초기화
 
         for (int i = 0; i < textPros.Length; i++)
         {
-            hideSkillTimeTexts[i] = textPros[i].GetComponent<TextMeshProUGUI>();
+            hideSkillTimeTexts[i] = textPros[i].GetComponent<TextMeshProUGUI>(); // GetComponent로 TextMeshProUGUI 가져오기
             if (hideSkillButton[i] != null)
             {
                 hideSkillButton[i].SetActive(false);
@@ -34,8 +36,6 @@ public class SkillManager : MonoBehaviour
                 Debug.LogError("hideSkillButton[" + i + "] is not set.");
             }
         }
-
-        enemies = FindObjectsOfType<Enemy>();
     }
 
     private void Update()
@@ -57,6 +57,7 @@ public class SkillManager : MonoBehaviour
             return;
         }
 
+
         Button button = hideSkillButton[skillNum].GetComponent<Button>();
         if (button == null)
         {
@@ -64,7 +65,7 @@ public class SkillManager : MonoBehaviour
         }
 
         hideSkillButton[skillNum].SetActive(true);
-        button.interactable = false;
+        button.interactable = false; // 버튼 비활성화
 
         getSkillTimes[skillNum] = skillTimes[skillNum];
         isHideSkill[skillNum] = true;
@@ -97,7 +98,7 @@ public class SkillManager : MonoBehaviour
 
                 if (button != null)
                 {
-                    button.interactable = true;
+                    button.interactable = true; // 버튼 활성화
                 }
                 else
                 {
@@ -114,25 +115,24 @@ public class SkillManager : MonoBehaviour
 
     public void FireSkill(int level)
     {
-        float radius = 5.0f;
-        foreach (var enemy in enemies)
-        {
-            Vector3 enemyPosition = enemy.transform.position;
+        Vector3 randomPosition = GetRandomEnemyPosition();
+        if (randomPosition == Vector3.zero) return;
 
-            switch (level)
-            {
-                case 2:
-                    Meteor(100, enemyPosition, radius);
-                    break;
-                case 1:
-                    Meteor(60, enemyPosition, radius);
-                    break;
-                case 0:
-                    Meteor(30, enemyPosition, radius);
-                    break;
-            }
+        meteorPositions.Add(randomPosition);
+
+        float radius = meteorRadius;
+        switch (level)
+        {
+            case 2:
+                Meteor(100, randomPosition, radius);
+                break;
+            case 1:
+                Meteor(60, randomPosition, radius);
+                break;
+            case 0:
+                Meteor(30, randomPosition, radius);
+                break;
         }
-        
     }
 
     public void Meteor(int damage, Vector3 center, float radius)
@@ -147,6 +147,7 @@ public class SkillManager : MonoBehaviour
             }
         }
     }
+
     public void IceSkill(int level)
     {
         switch (level)
@@ -165,7 +166,34 @@ public class SkillManager : MonoBehaviour
 
     public void Freeze(float time, int damage)
     {
-        // Ice룬의 Freeze 스킬 관련 코드 추가
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 50.0f);
+        foreach (var hitCollider in hitColliders)
+        {
+            Enemy enemy = hitCollider.GetComponent<Enemy>();
+            if (enemy != null)
+            {
+                StartCoroutine(FreezeEnemy(enemy, time, damage));
+            }
+        }
+    }
+
+    IEnumerator FreezeEnemy(Enemy enemy, float time, int damage)
+    {
+        if (!enemy.isFrozen) // 이미 얼어있는 상태인지 확인
+        {
+            enemy.isFrozen = true; // 적의 움직임을 멈추게 함
+
+            float elapsed = 0f;
+            while (elapsed < time)
+            {
+                elapsed += Time.deltaTime;
+                enemy.hp -= damage * Time.deltaTime;
+
+                yield return null;
+            }
+
+            enemy.isFrozen = false; // 적의 움직임을 다시 활성화
+        }
     }
 
     public void WindSkill(int level)
@@ -186,7 +214,16 @@ public class SkillManager : MonoBehaviour
 
     public void Tornado(float power, int damage)
     {
-        // Wind룬의 Tornado 스킬 관련 코드 추가
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 10.0f); // 임시로 10.0f 반경을 설정
+        foreach (var hitCollider in hitColliders)
+        {
+            Enemy enemy = hitCollider.GetComponent<Enemy>();
+            if (enemy != null)
+            {
+                enemy.GetComponent<Rigidbody>().AddForce(Vector3.back * power, ForceMode.Impulse); // 적을 뒤로 밀어냄
+                enemy.hp -= damage;
+            }
+        }
     }
 
     public void LightningSkill(int level)
@@ -210,6 +247,24 @@ public class SkillManager : MonoBehaviour
         // Lightning룬의 ChainLightning 스킬 관련 코드 추가
     }
 
+    private Vector3 GetRandomEnemyPosition()
+    {
+        Enemy[] enemies = FindObjectsOfType<Enemy>();
+        if (enemies.Length == 0) return Vector3.zero;
+
+        Enemy randomEnemy = enemies[Random.Range(0, enemies.Length)];
+        return randomEnemy.transform.position;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+
+        foreach (var position in meteorPositions)
+        {
+            Gizmos.DrawWireSphere(position, meteorRadius);
+        }
+    }
     private GameObject[] FindGameObjectsWithTags(string[] tags)
     {
         List<GameObject> allObjects = new List<GameObject>();
@@ -219,43 +274,5 @@ public class SkillManager : MonoBehaviour
             allObjects.AddRange(taggedObjects);
         }
         return allObjects.ToArray();
-    }
-
-    private void ActivateAllChildren(GameObject parent)
-    {
-        foreach (Transform child in parent.transform)
-        {
-            child.gameObject.SetActive(true);
-            ActivateAllChildren(child.gameObject);
-        }
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-
-        if (enemies == null)
-        {
-            return;
-        }
-
-        foreach (var enemy in enemies)
-        {
-            if (enemy != null)
-            {
-                Vector3 enemyPosition = enemy.transform.position;
-                Gizmos.DrawWireSphere(enemyPosition, gizmoRadius);
-            }
-        }
-    }
-
-    public void ActivateWave1()
-    {
-        GameObject wave1 = GameObject.Find("Wave1");
-        if (wave1 != null)
-        {
-            wave1.SetActive(true);
-            ActivateAllChildren(wave1);
-        }
     }
 }
