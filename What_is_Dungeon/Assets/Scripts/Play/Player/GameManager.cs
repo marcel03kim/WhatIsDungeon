@@ -11,15 +11,18 @@ public class GameManager : MonoBehaviour
     public GameObject Canvas_Pause;
     public GameObject Canvas_Clear;
 
+    public GameObject wave1;
+    public GameObject wave2;
+    public GameObject wave3;
+    public GameObject Boss;
+
+
     public Text timeText;
     public Text recordText;
     public GameObject NewRecord;
     public float bestTime;
     public bool isGameClear;
 
-    public GameObject wave1;
-    public GameObject wave2;
-    public GameObject wave3;
 
     [SerializeField] private float playTime;
 
@@ -28,12 +31,13 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        wave1.SetActive(true);
-        wave2.SetActive(false);
-        wave3.SetActive(false);
-
         isGameClear = false;
         playTime = 0;
+
+        wave1.SetActive(false);
+        wave2.SetActive(false);
+        wave3.SetActive(false);
+        Boss.SetActive(false);
 
         Canvas_Pause.SetActive(false);
         Canvas_Fail.SetActive(false);
@@ -55,6 +59,10 @@ public class GameManager : MonoBehaviour
             Canvas_Pause.SetActive(true);
             Pause();
         }
+        if(playTime >= 4f)
+        {
+            wave1.SetActive(true);
+        }
         if (playTime >= 15f)
         {
             wave2.SetActive(true);
@@ -66,6 +74,7 @@ public class GameManager : MonoBehaviour
         }
     }
     
+   
     public void ReStart()
     {
         Time.timeScale = 1f;

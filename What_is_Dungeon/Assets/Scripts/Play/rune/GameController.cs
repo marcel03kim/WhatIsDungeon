@@ -173,16 +173,16 @@ public class GameController : MonoBehaviour
         if (coin >= 10)
         {
             PlaceRandomrune("Wind");
-            coin -= 10;
+            coin -= 15;
         }
     }
 
     public void CreateLightningRune()
     {
-        if (coin >= 15)
+        if (coin >= 20)
         {
             PlaceRandomrune("Lightning");
-            coin -= 15;
+            coin -= 20;
         }
     }
 
@@ -229,7 +229,8 @@ public class GameController : MonoBehaviour
             }
         }
         
-    }public void ActiveWindSkill()
+    }
+    public void ActiveWindSkill()
     {
         foreach (SlotManager slot in slots)
         {
