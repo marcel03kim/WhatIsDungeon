@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     public float bestTime;
     public bool isGameClear;
 
+    
 
     [SerializeField] private float playTime;
 
