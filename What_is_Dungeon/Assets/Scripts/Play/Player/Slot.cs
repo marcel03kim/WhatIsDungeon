@@ -36,7 +36,7 @@ public class Slot : MonoBehaviour
         // 인스턴스화된 객체를 현재 슬롯의 자식으로 설정
         manaGo.transform.SetParent(this.transform);
         manaGo.transform.localPosition = Vector3.zero;
-        manaGo.transform.localScale = Vector3.zero;
+        manaGo.transform.localScale = new Vector3(1f, 1f, 1f);
 
         // 상태값을 FULL로 변경
         ChangeStateTo(MANASLOTSTATE.FULL);

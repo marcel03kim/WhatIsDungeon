@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,21 +15,19 @@ public class GameController : MonoBehaviour
     public Slot[] manaSlots;
     public Dictionary<int, Slot> manaSlotDictionary;
 
-    public int currentMana;
-    public int maxMana;
-    public int minMana;
+    public TMP_Text manaText;                       // 현재 마나의 양을 표시할 TMP
+    public Transform manaIconBG;
 
-    private int currentManaSlotIndex;
-    private float manaIncreaseTimer;
-    public float manaIncreaseInterval = 1.0f; // 1초마다 mana 증가
+    public GameObject manaPrefab;                   // 마나 이미지 원본 프리팹
+    private List<GameObject> manaObjects = new List<GameObject>();           // 지금까지 생성한 마나를 저장하는 리스트
 
-    public Text manaText;
+    private int manaAmount = 0;                     // 현재 마나 양
+    private int maxManaAmount = 10;                 // 최대 마나 양
+    private float manaAdditionTimer = 0f;
+
 
     private void Start()
     {
-        maxMana = 10;
-        minMana = 0;
-        currentManaSlotIndex = 10;
 
         slotDictionary = new Dictionary<int, SlotManager>();
         for (int i = 0; i < slots.Length; i++)
@@ -37,35 +36,20 @@ public class GameController : MonoBehaviour
             slotDictionary.Add(i, slots[i]);
         }
 
-        currentManaSlotIndex = 0;
-
-        manaSlotDictionary = new Dictionary<int, Slot>();
-
-        for (int i = 0; i < manaSlots.Length; i++)
-        {
-            manaSlots[i].id = i;
-            manaSlotDictionary.Add(i, manaSlots[i]);
-        }
-
-        manaIncreaseTimer = 0.0f;
+        
     }
 
 
     void Update()
     {
-        manaIncreaseTimer += Time.deltaTime;
+        manaAdditionTimer += Time.deltaTime;
 
-        if(currentMana < 11)
+        if (manaAdditionTimer >= 1f)
         {
-            if (manaIncreaseTimer >= manaIncreaseInterval)
-            {
-                manaIncreaseTimer = 0.0f;
-                currentMana++;
-                manaText.text = currentMana + " / " + maxMana;
-                PlaceMana();
-            }
+            AddMana(1);
+            ChangeManaText();
+            manaAdditionTimer -= 1f; // 1초를 초과한 시간을 차감
         }
-        
 
         if (Time.timeScale > 0)
         {
@@ -85,7 +69,6 @@ public class GameController : MonoBehaviour
             }
         }
     }
-
     void SendRayCast()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -93,56 +76,63 @@ public class GameController : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit))
         {
-            var slot = hit.transform.GetComponent<SlotManager>();          //Raycast를 통해 나온 Slot칸
+            var slot = hit.transform.GetComponent<SlotManager>(); // Raycast를 통해 나온 Slot칸
             if (slot.state == SlotManager.SLOTSTATE.FULL && carryingRune == null)
             {
                 string runePath = "Prefabs/rune_Grabbed_" + slot.runeObject.tag + slot.runeObject.level.ToString("000");
-                var runeGo = (GameObject)Instantiate(Resources.Load<GameObject>(runePath));     //아이템 생성
+                var runeGo = (GameObject)Instantiate(Resources.Load<GameObject>(runePath)); // 아이템 생성
 
                 runeGo.transform.SetParent(this.transform);
-                runeGo.transform.localPosition = Vector3.zero;
                 runeGo.transform.localScale = Vector3.one * 2;
 
-                carryingRune = runeGo.GetComponent<RuneManager>();         //슬롯 정보 입력
+                carryingRune = runeGo.GetComponent<RuneManager>(); // 슬롯 정보 입력
                 carryingRune.InitDummy(slot.id, slot.runeObject.level, slot.runeObject.tag);
 
                 slot.runeGrabbed();
+
+                // 룬을 마우스 위치로 이동
+                MoveRuneToMousePosition(carryingRune);
             }
             else if (slot.state == SlotManager.SLOTSTATE.EMPTY && carryingRune != null)
-            {//빈 슬롯에 아이템 배치
-                slot.Createrune(carryingRune.runeLevel, carryingRune.runeTag);       //잡고 있는것 슬롯 위치에 생성
-                Destroy(carryingRune.gameObject);           //잡고 있는것 파괴
+            {
+                // 빈 슬롯에 아이템 배치
+                slot.Createrune(carryingRune.runeLevel, carryingRune.runeTag); // 잡고 있는 것 슬롯 위치에 생성
+                Destroy(carryingRune.gameObject); // 잡고 있는 것 파괴
             }
             else if (slot.state == SlotManager.SLOTSTATE.FULL && carryingRune != null)
-            {//Checking 후 병합
-                if (slot.runeObject.level == carryingRune.runeLevel
-                    && slot.runeObject.tag == carryingRune.runeTag)
+            {
+                // Checking 후 병합
+                if (slot.runeObject.level == carryingRune.runeLevel && slot.runeObject.tag == carryingRune.runeTag)
                 {
-                    OnruneMergedWithTarget(slot.id);    //병합 함수 호출
+                    OnruneMergedWithTarget(slot.id); // 병합 함수 호출
                 }
                 else
                 {
-                    OnruneCarryFail();  //아이템 배치 실패
+                    OnruneCarryFail(); // 아이템 배치 실패
                 }
             }
         }
         else
         {
             if (!carryingRune) return;
-            OnruneCarryFail();  //아이템 배치 실패
+            OnruneCarryFail(); // 아이템 배치 실패
         }
-        
     }
 
+    void MoveRuneToMousePosition(RuneManager rune)
+    {
+        Vector3 mousePosition = Input.mousePosition;
+        mousePosition.z = 10f; // Set a distance from the camera to place the rune
+        Vector3 worldMousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
+        rune.transform.position = worldMousePosition;
+    }
+   
 
     void OnruneSelected()
-    {   //아이템을 선택하고 마우스 위치로 이동 
-        _target = Camera.main.ScreenToWorldPoint(Input.mousePosition);  //좌표변환
-        _target.z = 0;
-        var delta = 10 * Time.deltaTime;
-        delta *= Vector3.Distance(transform.position, _target);
-        carryingRune.transform.position = Vector3.MoveTowards(carryingRune.transform.position, _target, delta);
+    {
+        MoveRuneToMousePosition(carryingRune);
     }
+
     
     void OnruneMergedWithTarget(int targetSlotId)
     {
@@ -182,84 +172,97 @@ public class GameController : MonoBehaviour
         slot.GetComponent<SlotManager>().Createrune(0, runeTag);
     }
 
-    void PlaceMana()
-    {
-        if (AllManaSlotsOccupied())
+    private void AddMana(int amount)
+    {       // 마나를 추가하는 함수
+        if (amount < 0) amount *= -1;
+
+        if (manaObjects.Count + amount > maxManaAmount)
         {
-            return;
+            manaAmount = maxManaAmount;
+        }
+        else
+        {
+            manaAmount += amount;
         }
 
-        if(currentMana < 11)
+        if (manaObjects.Count < maxManaAmount)
         {
-            var manaSlot = manaSlots[currentManaSlotIndex];
-            while (manaSlot.state == Slot.MANASLOTSTATE.FULL)
+            for (int i = 0; i < amount; i++)
             {
-                currentManaSlotIndex = (currentManaSlotIndex + 1) % manaSlots.Length;
-                manaSlot = manaSlots[currentManaSlotIndex];
-            }
-            manaSlot.GetComponent<Slot>().CreateMana();
-            currentManaSlotIndex = (currentManaSlotIndex + 1) % manaSlots.Length;
-        }
-    }
-
-
-    public void DecreaseMana(int amount)
-    {
-        currentMana -= amount;
-        RemoveMana(amount);
-    }
-
-
-    void RemoveMana(int amount)
-    {
-        for (int i = 0; i < amount; i++)
-        {
-            foreach (var manaSlot in manaSlots)
-            {
-                if (manaSlot.state == Slot.MANASLOTSTATE.FULL)
-                {
-                    Destroy(manaSlot.transform.GetChild(0).gameObject); // 생성된 마나 프리팹 삭제
-                    manaSlot.ChangeStateTo(Slot.MANASLOTSTATE.EMPTY); // 슬롯 상태를 EMPTY로 변경
-                    break;
-                }
+                var temp = Instantiate(manaPrefab, manaIconBG);
+                manaObjects.Add(temp);
             }
         }
+    }
+    private void RemoveMana(int amount)
+    {
+        if (amount < 0) amount *= -1;
+
+        if (manaAmount - amount <= 0)
+        {
+            amount = manaAmount; // 남아있는 모든 마나를 제거
+            manaAmount = 0;
+        }
+        else
+        {
+            manaAmount -= amount;
+        }
+
+        int removeCount = Mathf.Min(amount, manaObjects.Count);
+
+        for (int i = 0; i < removeCount; i++)
+        {
+            var go = manaObjects[0];
+            manaObjects.RemoveAt(0);
+            Destroy(go);
+        }
+
+        ChangeManaText(); // 마나가 변경된 후 텍스트 업데이트
+    }
+    private void ChangeManaText()
+    {       // 마나를 표시하는 함수
+       manaText.text = $"{manaAmount} / {maxManaAmount}";
     }
 
 
     public void CreateFireRune()
     {
-        if (currentMana >= 1)
+        if (manaAmount >= 1)
         {
             PlaceRandomrune("Fire");
-            DecreaseMana(1);
+            RemoveMana(1);
+            ChangeManaText();
+
         }
     }
 
     public void CreateIceRune()
     {
-        if (currentMana >= 2)
+        if (manaAmount >= 2)
         {
             PlaceRandomrune("Ice");
-            DecreaseMana(2);
+            RemoveMana(2);
+            ChangeManaText();
         }
     }
 
     public void CreateWindRune()
     {
-        if (currentMana >= 4)
+        if (manaAmount >= 4)
         {
             PlaceRandomrune("Wind");
-            DecreaseMana(4);
+            RemoveMana(4);
+            ChangeManaText();
         }
     }
 
     public void CreateLightningRune()
     {
-        if (currentMana >= 6)
+        if (manaAmount >= 6)
         {
             PlaceRandomrune("Lightning");
-            DecreaseMana(6);
+            RemoveMana(6);
+            ChangeManaText();
         }
     }
 
