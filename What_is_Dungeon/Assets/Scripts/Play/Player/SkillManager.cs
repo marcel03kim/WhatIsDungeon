@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using static UnityEngine.GraphicsBuffer;
+using Unity.VisualScripting;
 
 public class SkillManager : MonoBehaviour
 {
@@ -14,11 +16,12 @@ public class SkillManager : MonoBehaviour
     private float[] skillTimes = { 5, 5, 8, 12 };
     private float[] getSkillTimes = { 0, 0, 0, 0 };
 
-    public float gizmoRadius = 5.0f; // 기즈모 반경을 설정합니다.
     public string[] enemyTags = { "Enemy", "Wave1", "Wave2", "Wave3", "Boss" };
 
     private List<Vector3> meteorPositions = new List<Vector3>(); // 메테오 위치를 저장할 리스트
-    public float meteorRadius = 5.0f;
+    public float meteorRadius;
+
+    public GameObject LightPrefab;
 
     private void Start()
     {
@@ -30,10 +33,6 @@ public class SkillManager : MonoBehaviour
             if (hideSkillButton[i] != null)
             {
                 hideSkillButton[i].SetActive(false);
-            }
-            else
-            {
-                Debug.LogError("hideSkillButton[" + i + "] is not set.");
             }
         }
     }
@@ -100,10 +99,6 @@ public class SkillManager : MonoBehaviour
                 {
                     button.interactable = true; // 버튼 활성화
                 }
-                else
-                {
-                    Debug.LogError("No Button component found on hideSkillButton[" + skillNum + "]");
-                }
             }
 
             hideSkillTimeTexts[skillNum].text = getSkillTimes[skillNum].ToString("00");
@@ -112,6 +107,7 @@ public class SkillManager : MonoBehaviour
             hideSkillImage[skillNum].fillAmount = time;
         }
     }
+
 
     public void FireSkill(int level)
     {
@@ -124,13 +120,13 @@ public class SkillManager : MonoBehaviour
         switch (level)
         {
             case 2:
-                Meteor(100, randomPosition, radius);
+                Meteor(100, randomPosition, 100f);
                 break;
             case 1:
-                Meteor(60, randomPosition, radius);
+                Meteor(60, randomPosition, 50f);
                 break;
             case 0:
-                Meteor(30, randomPosition, radius);
+                Meteor(30, randomPosition, 30f);
                 break;
         }
     }
@@ -143,7 +139,7 @@ public class SkillManager : MonoBehaviour
             Enemy enemy = hitCollider.GetComponent<Enemy>();
             if (enemy != null)
             {
-                enemy.hp -= damage;
+                enemy.currentHp -= damage;
             }
         }
     }
@@ -166,33 +162,38 @@ public class SkillManager : MonoBehaviour
 
     public void Freeze(float time, int damage)
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 50.0f);
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 100.0f);
         foreach (var hitCollider in hitColliders)
         {
             Enemy enemy = hitCollider.GetComponent<Enemy>();
             if (enemy != null)
             {
-                StartCoroutine(FreezeEnemy(enemy, time, damage));
+                Rigidbody enemyRigidbody = enemy.GetComponent<Rigidbody>();
+                if (enemyRigidbody != null)
+                {
+                    StartCoroutine(FreezeEnemy(enemy, time, damage));
+
+                }
             }
         }
     }
 
     IEnumerator FreezeEnemy(Enemy enemy, float time, int damage)
     {
-        if (!enemy.isFrozen) // 이미 얼어있는 상태인지 확인
+        if (!enemy.isStop) // 이미 얼어있는 상태인지 확인
         {
-            enemy.isFrozen = true; // 적의 움직임을 멈추게 함
+            enemy.isStop = true; // 적의 움직임을 멈추게 함
 
             float elapsed = 0f;
             while (elapsed < time)
             {
                 elapsed += Time.deltaTime;
-                enemy.hp -= damage * Time.deltaTime;
+                enemy.currentHp -= damage * Time.deltaTime;
 
                 yield return null;
             }
 
-            enemy.isFrozen = false; // 적의 움직임을 다시 활성화
+            enemy.isStop = false; // 적의 움직임을 다시 활성화
         }
     }
 
@@ -201,52 +202,107 @@ public class SkillManager : MonoBehaviour
         switch (level)
         {
             case 2:
-                Tornado(10f, 50);
+                Tornado(5f, 3f, 50);
                 break;
             case 1:
-                Tornado(7f, 30);
+                Tornado(2.5f, 1f, 30);
                 break;
             case 0:
-                Tornado(3f, 10);
+                Tornado(1f, 0.5f, 10);
                 break;
         }
     }
 
-    public void Tornado(float power, int damage)
+    public void Tornado(float power, float time, int damage)
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 10.0f); // 임시로 10.0f 반경을 설정
+
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 100.0f);
         foreach (var hitCollider in hitColliders)
         {
             Enemy enemy = hitCollider.GetComponent<Enemy>();
             if (enemy != null)
             {
-                enemy.GetComponent<Rigidbody>().AddForce(Vector3.back * power, ForceMode.Impulse); // 적을 뒤로 밀어냄
-                enemy.hp -= damage;
+                Rigidbody enemyRigidbody = enemy.GetComponent<Rigidbody>();
+                if (enemyRigidbody != null)
+                {
+                    StartCoroutine(KnockBackEnemy(enemy, time, damage));
+                    enemyRigidbody.AddForce(Vector3.left * power, ForceMode.Impulse); // 적을 뒤로 밀어냄
+                    enemy.currentHp -= damage;
+                }
             }
         }
     }
 
+    IEnumerator KnockBackEnemy(Enemy enemy, float time, int damage)
+    {
+        if (!enemy.isStop) // 이미 얼어있는 상태인지 확인
+        {
+            enemy.isStop = true; // 적의 움직임을 멈추게 함
+
+            float elapsed = 0f;
+            while (elapsed < time)
+            {
+                elapsed += Time.deltaTime;
+
+                yield return null;
+            }
+
+            enemy.isStop = false; // 적의 움직임을 다시 활성화
+        }
+    }
     public void LightningSkill(int level)
     {
         switch (level)
         {
             case 2:
-                ChainLightning(150f, 50);
+                ChainLightning(150f, 10f, 5f, 50);
                 break;
             case 1:
-                ChainLightning(100f, 25);
+                ChainLightning(100f, 10f, 3f, 25);
                 break;
             case 0:
-                ChainLightning(60f, 10);
+                ChainLightning(60f, 10f, 1f, 10);
                 break;
         }
     }
 
-    public void ChainLightning(float distance, int damage)
+    public void ChainLightning(float distance, float LightSpeed, float time, int damage)
     {
-        // Lightning룬의 ChainLightning 스킬 관련 코드 추가
+        Collider[] colliders = Physics.OverlapSphere(transform.position, distance);
+        foreach (Collider col in colliders)
+        {
+            if (col.CompareTag("Enemy"))
+            {
+                Vector3 direction = (col.transform.position - transform.position).normalized;
+                transform.Translate(direction * LightSpeed * Time.deltaTime);
+
+                // 충돌 시 연쇄 효과 발동
+                chain(col.gameObject);
+
+                break; // 하나의 적만 추적하도록 하기 위해 루프 중단
+            }
+        }
+
+        void chain(GameObject target)
+        {
+            Destroy(target); // 충돌된 오브젝트 파괴
+
+            Collider[] colliders = Physics.OverlapSphere(target.transform.position, distance);
+            foreach (Collider col in colliders)
+            {
+                if (col.CompareTag("Enemy"))
+                {
+                    Vector3 spawnPosition = col.transform.position;
+                    Destroy(col.gameObject); // 주변 적 파괴
+
+                    // 새로운 오브젝트 생성
+                    Instantiate(LightPrefab, spawnPosition, Quaternion.identity);
+                }
+            }
+        }
     }
 
+    
     private Vector3 GetRandomEnemyPosition()
     {
         Enemy[] enemies = FindObjectsOfType<Enemy>();
