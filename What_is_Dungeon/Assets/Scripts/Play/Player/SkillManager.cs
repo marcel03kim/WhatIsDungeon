@@ -34,10 +34,6 @@ public class SkillManager : MonoBehaviour
             {
                 hideSkillButton[i].SetActive(false);
             }
-            else
-            {
-                Debug.LogError("hideSkillButton[" + i + "] is not set.");
-            }
         }
     }
 
@@ -103,10 +99,6 @@ public class SkillManager : MonoBehaviour
                 {
                     button.interactable = true; // 버튼 활성화
                 }
-                else
-                {
-                    Debug.LogError("No Button component found on hideSkillButton[" + skillNum + "]");
-                }
             }
 
             hideSkillTimeTexts[skillNum].text = getSkillTimes[skillNum].ToString("00");
@@ -115,6 +107,7 @@ public class SkillManager : MonoBehaviour
             hideSkillImage[skillNum].fillAmount = time;
         }
     }
+
 
     public void FireSkill(int level)
     {
@@ -146,7 +139,7 @@ public class SkillManager : MonoBehaviour
             Enemy enemy = hitCollider.GetComponent<Enemy>();
             if (enemy != null)
             {
-                enemy.hp -= damage;
+                enemy.currentHp -= damage;
             }
         }
     }
@@ -195,7 +188,7 @@ public class SkillManager : MonoBehaviour
             while (elapsed < time)
             {
                 elapsed += Time.deltaTime;
-                enemy.hp -= damage * Time.deltaTime;
+                enemy.currentHp -= damage * Time.deltaTime;
 
                 yield return null;
             }
@@ -234,7 +227,7 @@ public class SkillManager : MonoBehaviour
                 {
                     StartCoroutine(KnockBackEnemy(enemy, time, damage));
                     enemyRigidbody.AddForce(Vector3.left * power, ForceMode.Impulse); // 적을 뒤로 밀어냄
-                    enemy.hp -= damage;
+                    enemy.currentHp -= damage;
                 }
             }
         }
