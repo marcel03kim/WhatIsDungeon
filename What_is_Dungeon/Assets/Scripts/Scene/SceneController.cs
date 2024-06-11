@@ -31,7 +31,7 @@ public class SceneController : MonoBehaviour
     public GameObject Canvas_Stage;
     public GameObject Canvas_Main;
     public GameObject Canvas_Book;
-
+    public GameObject Canvas_Pause;
 
 
     public void Start()
@@ -75,6 +75,27 @@ public class SceneController : MonoBehaviour
         Canvas_Main.SetActive(false);
         Canvas_Inventory.SetActive(true);
         Canvas_Book.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            TogglePause();
+        }
+    }
+    private void TogglePause()
+    {
+        if (Time.timeScale == 1)
+        {
+            Time.timeScale = 0;
+            Canvas_Pause.SetActive(true);
+        }
+        else
+        {
+            Time.timeScale = 1;
+            Canvas_Pause.SetActive(false);
+        }
     }
 
     public void GoExit()
