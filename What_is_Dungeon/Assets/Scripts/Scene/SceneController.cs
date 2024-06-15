@@ -5,41 +5,37 @@ using UnityEngine.SceneManagement;
 
 public class SceneController : MonoBehaviour
 {
-    private static SceneController instance;            //教臂沛 内靛
-    public static SceneController Instance
-    {
-        get
-        {
-            if (instance == null)
-            {
-                GameObject tempObj = GameObject.Find("SceneController");
-                if (tempObj != null)
-                {
-                    instance = tempObj.GetComponent<SceneController>();
-                }
-                else
-                {
-                    instance = new GameObject("SceneController").AddComponent<SceneController>();
-                }
-
-                DontDestroyOnLoad(instance);
-            }
-            return instance;
-        }
-    }
+    public static SceneController Instance;            //教臂沛 内靛
+    
     public GameObject Canvas_Inventory;
     public GameObject Canvas_Stage;
     public GameObject Canvas_Main;
     public GameObject Canvas_Book;
-    public GameObject Canvas_Pause;
+    public GameObject Canvas_Setting;
 
 
+    public void Awake()
+    {
+        if(Instance)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        else
+        {
+            transform.parent = null;
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+    }
     public void Start()
     {
         Canvas_Main.SetActive(true);
         Canvas_Stage.SetActive(false);
         Canvas_Inventory.SetActive(false);
         Canvas_Book.SetActive(false);
+        Canvas_Setting.SetActive(false);
+        Canvas_Setting.SetActive(false);
     }
 
     public void OpenBook()
@@ -77,25 +73,16 @@ public class SceneController : MonoBehaviour
         Canvas_Book.SetActive(false);
     }
 
-    private void Update()
+    
+    public void ToggleSetting()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            TogglePause();
-        }
+        Canvas_Setting.SetActive(true);
     }
-    private void TogglePause()
+    
+    public void OutSetting()
     {
-        if (Time.timeScale == 1)
-        {
-            Time.timeScale = 0;
-            Canvas_Pause.SetActive(true);
-        }
-        else
-        {
-            Time.timeScale = 1;
-            Canvas_Pause.SetActive(false);
-        }
+        Canvas_Setting.SetActive(false);
+
     }
 
     public void GoExit()

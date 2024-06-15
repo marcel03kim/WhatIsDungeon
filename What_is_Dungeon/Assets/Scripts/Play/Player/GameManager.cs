@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager instance;
+
     public string thisScene;
     public GameObject Canvas_Fail;
     public GameObject Canvas_Pause;
@@ -16,22 +18,32 @@ public class GameManager : MonoBehaviour
     public GameObject wave3;
     public GameObject Boss;
 
+    public GameObject Player;
+    public GameObject star1;
+    public GameObject star2;
+    public GameObject star3;
 
     public Text timeText;
+    public Text clearText;
     public Text recordText;
     public GameObject NewRecord;
     public float bestTime;
     public bool isGameClear;
 
-    
+    public int clearPoint;
+    public int maxClearPoint;
 
     [SerializeField] private float playTime;
 
 
+   
 
     // Start is called before the first frame update
     void Start()
     {
+        maxClearPoint = 15;
+        Player.GetComponent<PlayerController>();
+
         isGameClear = false;
         playTime = 0;
 
@@ -54,6 +66,7 @@ public class GameManager : MonoBehaviour
         {
             playTime += Time.deltaTime;
             timeText.text = "Time : " + (int)playTime;
+            clearText.text = "Clear : " + clearPoint + "/" + maxClearPoint;
         }
         if(Input.GetKeyDown(KeyCode.Escape))
         {
@@ -72,6 +85,13 @@ public class GameManager : MonoBehaviour
         if (playTime >= 30f)
         {
             wave3.SetActive(true);
+        }
+
+
+        if (clearPoint >= maxClearPoint)
+        {
+            isGameClear = true;
+            Clear();
         }
     }
     
@@ -95,6 +115,30 @@ public class GameManager : MonoBehaviour
         else
         {
             NewRecord.SetActive(false);
+        }
+
+        switch (Player.GetComponent<PlayerController>().Hp)
+        {
+            case 3:
+                star3.SetActive(true);
+                star2.SetActive(true);
+                star1.SetActive(true);
+                break;
+            case 2:
+                star3.SetActive(false);
+                star2.SetActive(true);
+                star1.SetActive(true);
+                break;
+            case 1:
+                star3.SetActive(false);
+                star2.SetActive(false);
+                star1.SetActive(true);
+                break;
+            case 0:
+                star3.SetActive(false);
+                star2.SetActive(false);
+                star1.SetActive(false);
+                break;
         }
 
         recordText.text = "BestTime : " + (int)playTime;
@@ -123,6 +167,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void Setting()
+    {
+        SceneController.Instance.Canvas_Setting.SetActive(true);
+
+    }
     public void Continue()
     {
         Canvas_Pause.SetActive(false);

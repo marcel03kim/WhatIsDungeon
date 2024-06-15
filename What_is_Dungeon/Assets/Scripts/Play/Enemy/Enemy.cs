@@ -113,6 +113,7 @@ public class Enemy : MonoBehaviour
     void Die()
     {
         gameObject.SetActive(false);
+        GameObject.FindObjectOfType<GameManager>().clearPoint += 1;
     }
 
     private void OnCollisionEnter(Collision collision)
