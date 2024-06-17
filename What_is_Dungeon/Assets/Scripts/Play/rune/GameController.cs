@@ -42,8 +42,11 @@ public class GameController : MonoBehaviour
 
     void Update()
     {
-        manaAdditionTimer += Time.deltaTime;
+        if (Time.time > 3f)
+        {
+            manaAdditionTimer += Time.deltaTime;
 
+        }
         if (manaAdditionTimer >= 1f)
         {
             AddMana(1);
@@ -172,7 +175,7 @@ public class GameController : MonoBehaviour
         slot.GetComponent<SlotManager>().Createrune(0, runeTag);
     }
 
-    private void AddMana(int amount)
+    public void AddMana(int amount)
     {       // 마나를 추가하는 함수
         if (amount < 0) amount *= -1;
 

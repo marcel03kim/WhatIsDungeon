@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657695, g: 0.49641138, b: 0.5748176, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657755, g: 0.4964127, b: 0.57481825, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -7012,7 +7012,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 994840769}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1338495724}
+        m_TargetAssemblyTypeName: SetItem, Assembly-CSharp
+        m_MethodName: ManaPotion
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &994840769
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8964,7 +8976,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1266521961}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1338495724}
+        m_TargetAssemblyTypeName: SetItem, Assembly-CSharp
+        m_MethodName: Cookie
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1266521961
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9122,7 +9146,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1290044340}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1338495724}
+        m_TargetAssemblyTypeName: SetItem, Assembly-CSharp
+        m_MethodName: HpPotion
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1290044340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9401,6 +9437,7 @@ GameObject:
   - component: {fileID: 1338495721}
   - component: {fileID: 1338495722}
   - component: {fileID: 1338495723}
+  - component: {fileID: 1338495724}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -9502,6 +9539,24 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 35.232952, y: 89.24, z: 347.33652}
   m_Center: {x: 141.14375, y: 9.3, z: 112.1}
+--- !u!114 &1338495724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1338495719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b1997f45578c8a44adfee1adf2af825, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1338495719}
+  gameManager: {fileID: 1891177178}
+  isEnemySlow: 0
+  isHp: 0
+  isMana: 0
+  SlowTime: 0
 --- !u!1 &1341189704
 GameObject:
   m_ObjectHideFlags: 0

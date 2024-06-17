@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (!isGameClear)
+        if (!isGameClear && Time.time > 3f)
         {
             playTime += Time.deltaTime;
             timeText.text = "Time : " + (int)playTime;
@@ -73,7 +73,7 @@ public class GameManager : MonoBehaviour
             Canvas_Pause.SetActive(true);
             Pause();
         }
-        if(playTime >= 4f)
+        if(playTime >= 1f)
         {
             wave1.SetActive(true);
         }
