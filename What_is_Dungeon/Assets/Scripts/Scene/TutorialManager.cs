@@ -12,6 +12,13 @@ public class TutorialManager : MonoBehaviour
         StartCoroutine(DisplayRawImages());
     }
 
+    private void Update()
+    {
+        if(Input.anyKeyDown)
+        {
+            Loading.LoadScene("GameScene");
+        }
+    }
     IEnumerator DisplayRawImages()
     {
         // 모든 RawImage를 비활성화합니다.

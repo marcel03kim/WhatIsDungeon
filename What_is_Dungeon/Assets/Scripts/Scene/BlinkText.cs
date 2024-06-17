@@ -1,24 +1,43 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
-public class BilnkText : MonoBehaviour
+public class BlinkText : MonoBehaviour
 {
     Text flashingText;
     void Start()
     {
         flashingText = GetComponent<Text>();
-        StartCoroutine(BlinkText());
+        StartCoroutine(FadeText());
     }
-    public IEnumerator BlinkText()
+
+    public IEnumerator FadeText()
     {
         while (true)
         {
-            flashingText.text = "";
-            yield return new WaitForSeconds(.5f);
-            flashingText.text = "Press Any Key to Start";
-            yield return new WaitForSeconds(.5f);
+            // Fade out
+            for (float alpha = 1f; alpha >= 0f; alpha -= 0.01f)
+            {
+                SetAlpha(alpha);
+                yield return new WaitForSeconds(0.01f);
+            }
+
+            // Fade in
+            for (float alpha = 0f; alpha <= 1f; alpha += 0.01f)
+            {
+                SetAlpha(alpha);
+                yield return new WaitForSeconds(0.01f);
+            }
+        }
+    }
+
+    void SetAlpha(float alpha)
+    {
+        if (flashingText != null)
+        {
+            Color color = flashingText.color;
+            color.a = alpha;
+            flashingText.color = color;
         }
     }
 }
