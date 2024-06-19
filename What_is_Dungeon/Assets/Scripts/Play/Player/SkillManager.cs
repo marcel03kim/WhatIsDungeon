@@ -120,13 +120,13 @@ public class SkillManager : MonoBehaviour
         switch (level)
         {
             case 2:
-                Meteor(100, randomPosition, 100f);
+                Meteor(13, randomPosition, 30f);
                 break;
             case 1:
-                Meteor(60, randomPosition, 50f);
+                Meteor(8, randomPosition, 15f);
                 break;
             case 0:
-                Meteor(30, randomPosition, 30f);
+                Meteor(5, randomPosition, 5f);
                 break;
         }
     }
@@ -149,13 +149,13 @@ public class SkillManager : MonoBehaviour
         switch (level)
         {
             case 2:
-                Freeze(5f, 10);
+                Freeze(4f, 10);
                 break;
             case 1:
-                Freeze(3f, 10);
+                Freeze(3f, 5);
                 break;
             case 0:
-                Freeze(1.5f, 10);
+                Freeze(2f, 1);
                 break;
         }
     }
@@ -202,13 +202,13 @@ public class SkillManager : MonoBehaviour
         switch (level)
         {
             case 2:
-                Tornado(5f, 3f, 50);
+                Tornado(3.5f, 3f, 10);
                 break;
             case 1:
-                Tornado(2.5f, 1f, 30);
+                Tornado(3f, 1f, 8);
                 break;
             case 0:
-                Tornado(1f, 0.5f, 10);
+                Tornado(1.5f, 0.5f, 5);
                 break;
         }
     }
@@ -255,10 +255,10 @@ public class SkillManager : MonoBehaviour
         switch (level)
         {
             case 2:
-                ChainLightning(150f, 10f, 5f, 50);
+                ChainLightning(150f, 10f, 6f, 20);
                 break;
             case 1:
-                ChainLightning(100f, 10f, 3f, 25);
+                ChainLightning(100f, 10f, 4.5f, 15);
                 break;
             case 0:
                 ChainLightning(60f, 10f, 1f, 10);
