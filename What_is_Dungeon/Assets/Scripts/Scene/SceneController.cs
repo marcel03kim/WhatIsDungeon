@@ -9,25 +9,16 @@ public class SceneController : MonoBehaviour
     
     public GameObject Canvas_Inventory;
     public GameObject Canvas_Stage;
+    public GameObject Canvas_Forest;
+    public GameObject Canvas_Cave;
+    public GameObject Canvas_Ocean;
+    public GameObject Canvas_Lava;
     public GameObject Canvas_Main;
     public GameObject Canvas_Book;
     public GameObject Canvas_Setting;
 
 
-    public void Awake()
-    {
-        if(Instance)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        else
-        {
-            transform.parent = null;
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-    }
+    
     public void Start()
     {
         Canvas_Main.SetActive(true);
