@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (!isGameClear && Time.time > 3f)
+        if (!isGameClear && Time.time > 1f)
         {
             playTime += Time.deltaTime;
             timeText.text = "Time : " + (int)playTime;

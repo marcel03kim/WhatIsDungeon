@@ -46,9 +46,15 @@ public class SceneController : MonoBehaviour
     }
     public void GoToMain()
     {
+        Start();
+    }
+    
+    public void GoToGameScene()
+    {
         Loading.LoadScene("GameScene");
     }
 
+    
     public void GoToStage()
     {
         Canvas_Stage.SetActive(true);

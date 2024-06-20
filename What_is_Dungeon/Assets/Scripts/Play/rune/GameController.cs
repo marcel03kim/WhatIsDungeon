@@ -42,7 +42,7 @@ public class GameController : MonoBehaviour
 
     void Update()
     {
-        if (Time.time > 3f)
+        if (Time.time > 1f)
         {
             manaAdditionTimer += Time.deltaTime;
 
