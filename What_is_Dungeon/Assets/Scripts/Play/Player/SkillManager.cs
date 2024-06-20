@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using static UnityEngine.GraphicsBuffer;
 using Unity.VisualScripting;
+using Unity.Burst.CompilerServices;
 
 public class SkillManager : MonoBehaviour
 {
@@ -21,7 +22,9 @@ public class SkillManager : MonoBehaviour
     private List<Vector3> meteorPositions = new List<Vector3>(); // 메테오 위치를 저장할 리스트
     public float meteorRadius;
 
-    public GameObject LightPrefab;
+    public GameObject[] effectPrefabs;
+    public float destroyDelay = 2f;
+    private GameObject effectInstance;
 
     private void Start()
     {
@@ -134,49 +137,91 @@ public class SkillManager : MonoBehaviour
     public void Meteor(int damage, Vector3 center, float radius)
     {
         Collider[] hitColliders = Physics.OverlapSphere(center, radius);
+
+        // 모든 오버랩된 적에 대해 스킬 효과를 적용
         foreach (var hitCollider in hitColliders)
         {
             Enemy enemy = hitCollider.GetComponent<Enemy>();
             if (enemy != null)
             {
                 enemy.currentHp -= damage;
+
+                // 이미 생성된 이펙트가 있다면 파괴합니다.
+                if (effectInstance != null)
+                {
+                    Destroy(effectInstance);
+                }
+
+                // 이펙트를 enemy 위치에 생성합니다.
+                effectInstance = Instantiate(effectPrefabs[0], enemy.transform.position, Quaternion.identity);
+                effectInstance.transform.localScale *= radius; // radius에 따라 크기 조정
+                Destroy(effectInstance, destroyDelay); // destroyDelay 초 후에 이펙트를 파괴합니다.
             }
         }
     }
 
+    private void ResetEnemyColor()
+    {
+        // 모든 Enemy의 색상을 원래대로 되돌립니다.
+        Enemy[] enemies = FindObjectsOfType<Enemy>();
+        foreach (var enemy in enemies)
+        {
+            Renderer enemyRenderer = enemy.GetComponent<Renderer>();
+            if (enemyRenderer != null)
+            {
+                enemyRenderer.material.color = Color.white;
+            }
+        }
+    }
+
+
+
     public void IceSkill(int level)
     {
+        Vector3 randomPosition = GetRandomEnemyPosition();
+        if (randomPosition == Vector3.zero) return;
+
         switch (level)
         {
             case 2:
-                Freeze(1.9f, 10);
+                Freeze(randomPosition, 1.9f, 10);
                 break;
             case 1:
-                Freeze(1.5f, 5);
+                Freeze(randomPosition, 1.5f, 5);
                 break;
             case 0:
-                Freeze(0.9f, 1);
+                Freeze(randomPosition, 0.9f, 1);
                 break;
         }
     }
 
-    public void Freeze(float time, int damage)
+    public void Freeze(Vector3 center, float time, int damage)
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 100.0f);
+        Collider[] hitColliders = Physics.OverlapSphere(center, 100.0f);
+
+        // 모든 오버랩된 적에 대해 스킬 효과를 적용
         foreach (var hitCollider in hitColliders)
         {
             Enemy enemy = hitCollider.GetComponent<Enemy>();
             if (enemy != null)
             {
-                Rigidbody enemyRigidbody = enemy.GetComponent<Rigidbody>();
-                if (enemyRigidbody != null)
-                {
-                    StartCoroutine(FreezeEnemy(enemy, time, damage));
+                StartCoroutine(FreezeEnemy(enemy, time, damage));
 
+                // 이미 생성된 이펙트가 있다면 파괴합니다.
+                if (effectInstance != null)
+                {
+                    Destroy(effectInstance);
                 }
+
+                // 이펙트를 enemy 위치에 생성합니다.
+                effectInstance = Instantiate(effectPrefabs[1], enemy.transform.position, Quaternion.identity);
+                effectInstance.transform.localScale *= 15f; // 크기를 15배로 키우기
+                Destroy(effectInstance, time); // time 초 후에 이펙트를 파괴합니다.
             }
         }
     }
+
+
 
     IEnumerator FreezeEnemy(Enemy enemy, float time, int damage)
     {
@@ -184,21 +229,40 @@ public class SkillManager : MonoBehaviour
         {
             enemy.isStop = true; // 적의 움직임을 멈추게 함
 
+            // 원하는 시간 동안 적을 얼리고
             float elapsed = 0f;
             while (elapsed < time)
             {
                 elapsed += Time.deltaTime;
                 enemy.currentHp -= damage * Time.deltaTime;
 
+                // 적의 색상을 파란색으로 변경
+                Renderer enemyRenderer = enemy.GetComponent<Renderer>();
+                if (enemyRenderer != null)
+                {
+                    enemyRenderer.material.color = Color.blue;
+                }
+
                 yield return null;
             }
 
             enemy.isStop = false; // 적의 움직임을 다시 활성화
+
+            // 적의 색상을 원래대로 되돌림
+            Renderer originalRenderer = enemy.GetComponent<Renderer>();
+            if (originalRenderer != null)
+            {
+                originalRenderer.material.color = Color.white;
+            }
         }
     }
 
+
     public void WindSkill(int level)
     {
+        Vector3 randomPosition = GetRandomEnemyPosition();
+        if (randomPosition == Vector3.zero) return;
+
         switch (level)
         {
             case 2:
@@ -215,7 +279,6 @@ public class SkillManager : MonoBehaviour
 
     public void Tornado(float power, float time, int damage)
     {
-
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, 100.0f);
         foreach (var hitCollider in hitColliders)
         {
@@ -227,6 +290,10 @@ public class SkillManager : MonoBehaviour
                 {
                     StartCoroutine(KnockBackEnemy(enemy, time, damage));
                     enemyRigidbody.AddForce(Vector3.left * power, ForceMode.Impulse); // 적을 뒤로 밀어냄
+                    Vector3 offsetPosition = enemy.transform.position + new Vector3(6.0f, 0f, 0f);
+                    GameObject instance = Instantiate(effectPrefabs[2], offsetPosition, Quaternion.identity);
+                    effectPrefabs[2].transform.localScale *= 1.5f;
+                    Destroy(instance, destroyDelay); // Destroy in 2 seconds
                     enemy.currentHp -= damage;
                 }
             }
@@ -269,40 +336,42 @@ public class SkillManager : MonoBehaviour
     public void ChainLightning(float distance, float LightSpeed, float time, int damage)
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position, distance);
+        GameObject firstEnemy = null;
+
+        // 가장 가까운 적을 찾음
         foreach (Collider col in colliders)
         {
             if (col.CompareTag("Enemy"))
             {
-                Vector3 direction = (col.transform.position - transform.position).normalized;
-                transform.Translate(direction * LightSpeed * Time.deltaTime);
-
-                // 충돌 시 연쇄 효과 발동
-                chain(col.gameObject);
-
-                break; // 하나의 적만 추적하도록 하기 위해 루프 중단
+                firstEnemy = col.gameObject;
+                break;
             }
+        }
+
+        if (firstEnemy != null)
+        {
+            // 첫 번째 적에게 연쇄 효과 발동
+            chain(firstEnemy);
         }
 
         void chain(GameObject target)
         {
             Destroy(target); // 충돌된 오브젝트 파괴
 
-            Collider[] colliders = Physics.OverlapSphere(target.transform.position, distance);
-            foreach (Collider col in colliders)
+            // 주변의 모든 Enemy에게 데미지를 입힘
+            Collider[] nearbyColliders = Physics.OverlapSphere(target.transform.position, distance);
+            foreach (Collider col in nearbyColliders)
             {
                 if (col.CompareTag("Enemy"))
                 {
-                    Vector3 spawnPosition = col.transform.position;
-                    Destroy(col.gameObject); // 주변 적 파괴
-
-                    // 새로운 오브젝트 생성
-                    Instantiate(LightPrefab, spawnPosition, Quaternion.identity);
+                    col.GetComponent<Enemy>().currentHp -= damage;
                 }
             }
         }
     }
 
-    
+
+
     private Vector3 GetRandomEnemyPosition()
     {
         Enemy[] enemies = FindObjectsOfType<Enemy>();
