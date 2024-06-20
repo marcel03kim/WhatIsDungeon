@@ -230,10 +230,10 @@ public class GameController : MonoBehaviour
 
     public void CreateFireRune()
     {
-        if (manaAmount >= 3)
+        if (manaAmount >= 2)
         {
             PlaceRandomrune("Fire");
-            RemoveMana(3);
+            RemoveMana(2);
             ChangeManaText();
 
         }

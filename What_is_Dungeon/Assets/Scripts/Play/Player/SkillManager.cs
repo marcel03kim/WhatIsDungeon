@@ -120,13 +120,13 @@ public class SkillManager : MonoBehaviour
         switch (level)
         {
             case 2:
-                Meteor(13, randomPosition, 30f);
+                Meteor(20, randomPosition, 30f);
                 break;
             case 1:
-                Meteor(10, randomPosition, 15f);
+                Meteor(14, randomPosition, 15f);
                 break;
             case 0:
-                Meteor(9, randomPosition, 5f);
+                Meteor(11, randomPosition, 5f);
                 break;
         }
     }
