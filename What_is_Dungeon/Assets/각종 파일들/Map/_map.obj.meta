@@ -3,7 +3,67 @@ guid: a05579bf4bf4a4bd295ce8b3fa9b308e
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Fire
+    second: {fileID: 4400912183637033359, guid: 69edd46c7f8d6ee4ca5488ca12916481, type: 3}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Fire.botton
+    second: {fileID: 3427104272240145629, guid: 7a8aa67aa69f768408703d5dde21f82b, type: 3}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Fire.ember
+    second: {fileID: 6177267062433708376, guid: 7a8aa67aa69f768408703d5dde21f82b, type: 3}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Fire.smoke
+    second: {fileID: 634170814862048636, guid: 7a8aa67aa69f768408703d5dde21f82b, type: 3}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Grass
+    second: {fileID: 2100000, guid: f710777eabed33743a22123881109429, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Grass.001
+    second: {fileID: 2100000, guid: 8868c6ab2ef9e4f35860de76483ce7c5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Grass.002
+    second: {fileID: 2100000, guid: 8868c6ab2ef9e4f35860de76483ce7c5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Master
+    second: {fileID: 2100000, guid: bc645dc0bf48e403481ff3e852ee2177, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Trunk.001
+    second: {fileID: 2100000, guid: 639e9bc5b1ec74e478bebf9c2eca7435, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Trunk.002
+    second: {fileID: 2100000, guid: 639e9bc5b1ec74e478bebf9c2eca7435, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ston
+    second: {fileID: 2100000, guid: 07b0203b70304b44da27a505f718e38f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ston.001
+    second: {fileID: 2100000, guid: 07b0203b70304b44da27a505f718e38f, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
