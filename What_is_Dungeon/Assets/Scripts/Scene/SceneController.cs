@@ -38,6 +38,11 @@ public class SceneController : MonoBehaviour
     }
     public void GoToGame()
     {
+        Loading.LoadScene("Demo");
+    }
+
+    public void GoToStageScene()
+    {
         Loading.LoadScene("Stage");
     }
     public void GoToShop()

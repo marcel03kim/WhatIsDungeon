@@ -58,6 +58,16 @@ public class Enemy : MonoBehaviour
             }
         }
 
+        if(gameObject.activeInHierarchy)
+        {
+            HpBar.SetActive(true);
+        }
+        
+        if(!gameObject.activeInHierarchy)
+        {
+            HpBar.SetActive(false);
+        }
+
         UpdateHealthBar();
 
         if (currentHp <= 0)
@@ -106,7 +116,7 @@ public class Enemy : MonoBehaviour
 
         if (HpBar != null)
         {
-            HpBar.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(90, 2, 0)); // 적의 위치를 따라다니도록 설정
+            HpBar.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(90, 5, 0)); // 적의 위치를 따라다니도록 설정
         }
     }
 

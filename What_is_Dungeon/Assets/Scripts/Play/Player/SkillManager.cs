@@ -26,6 +26,8 @@ public class SkillManager : MonoBehaviour
     public float destroyDelay = 2f;
     private GameObject effectInstance;
 
+    AudioSource[] arrayAudio;
+
     private void Start()
     {
         hideSkillTimeTexts = new TextMeshProUGUI[textPros.Length]; // 배열 초기화
@@ -156,6 +158,10 @@ public class SkillManager : MonoBehaviour
                 effectInstance = Instantiate(effectPrefabs[0], enemy.transform.position, Quaternion.identity);
                 effectInstance.transform.localScale *= radius; // radius에 따라 크기 조정
                 Destroy(effectInstance, destroyDelay); // destroyDelay 초 후에 이펙트를 파괴합니다.
+
+
+                arrayAudio = GameObject.Find("RuneSkillSound").GetComponents<AudioSource>();
+                arrayAudio[0].Play();
             }
         }
     }
@@ -217,6 +223,9 @@ public class SkillManager : MonoBehaviour
                 effectInstance = Instantiate(effectPrefabs[1], enemy.transform.position, Quaternion.identity);
                 effectInstance.transform.localScale *= 15f; // 크기를 15배로 키우기
                 Destroy(effectInstance, time); // time 초 후에 이펙트를 파괴합니다.
+
+                arrayAudio = GameObject.Find("RuneSkillSound").GetComponents<AudioSource>();
+                arrayAudio[1].Play();
             }
         }
     }
@@ -295,6 +304,8 @@ public class SkillManager : MonoBehaviour
                     effectPrefabs[2].transform.localScale *= 1.5f;
                     Destroy(instance, destroyDelay); // Destroy in 2 seconds
                     enemy.currentHp -= damage;
+                    arrayAudio = GameObject.Find("RuneSkillSound").GetComponents<AudioSource>();
+                    arrayAudio[2].Play();
                 }
             }
         }
@@ -352,6 +363,8 @@ public class SkillManager : MonoBehaviour
         {
             // 첫 번째 적에게 연쇄 효과 발동
             chain(firstEnemy);
+            arrayAudio = GameObject.Find("RuneSkillSound").GetComponents<AudioSource>();
+            arrayAudio[3].Play();
         }
 
         void chain(GameObject target)
